@@ -10,7 +10,9 @@ module.exports = (env, options) => {
       content_script: "./src/content-scripts/index.js",
       background: "./src/background.js",
       popup: "./src/popup-page/index.js",
-      option: "./src/option-page/index.js"
+      option: "./src/option-page/index.js",
+      devtool: "./src/devtool-page/index.js",
+      panel: "./src/panel-page/index.js"
     },
     module: {
       rules: [
@@ -60,6 +62,8 @@ module.exports = (env, options) => {
         [
           { from: "./src/popup-page/popup.html", force: true },
           { from: "./src/option-page/option.html", force: true },
+          { from: "./src/devtool-page/devtool.html", force: true },
+          { from: "./src/panel-page/panel.html", force: true },
           { from: "./src/app/", force: true }
         ],
         {}

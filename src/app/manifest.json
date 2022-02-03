@@ -1,6 +1,6 @@
 {
-  "name": "Free Dropshipping",
-  "description": "Free Dropshipping",
+  "name": "Chrome Boilerplate",
+  "description": "Chrome Boilerplate",
   "version": "0.0.1",
   "manifest_version": 3,
   "permissions": [
@@ -12,6 +12,8 @@
   "background": {
     "service_worker": "background.bundle.js"
   },
+  "options_page": "option.html",
+  "devtools_page": "devtools.html",
   "action": {
     "default_title": "Chrome extension",
     "default_icon": "images/icon-128.png",
@@ -25,9 +27,7 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://*.amazon.com/*"
-      ],
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
       "js": [
         "content_script.bundle.js"
       ]

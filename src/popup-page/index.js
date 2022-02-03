@@ -1,8 +1,5 @@
-import ReactDOM from "react-dom";
-import App from "./App";
+import React from "react";
+import { render } from "react-dom";
+import PopUp from "./PopUp";
 
-const Element = document.createElement("div");
-Element.setAttribute("id", "dfghbnjmERHJKFGHNMVBNMFBNMbmvvxnbdgf");
-document.body.appendChild(Element);
-const root = ReactDOM.createRoot(document.getElementById("dfghbnjmERHJKFGHNMVBNMFBNMbmvvxnbdgf"));
-root.render(<App />);
+render(<PopUp />, window.document.querySelector("#app-popup"));

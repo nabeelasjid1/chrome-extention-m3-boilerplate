@@ -1,4 +1,5 @@
-import ReactDOM from "react-dom";
-import App from "./App";
-const root = ReactDOM.createRoot(document.getElementById('app'));
-root.render(<App />);
+import React from "react";
+import { render } from "react-dom";
+import Options from "./Options";
+
+render(<Options />, window.document.querySelector("#app-options"));
