@@ -9,10 +9,10 @@ module.exports = (env, options) => {
     entry: {
       content_script: "./src/content-scripts/index.js",
       background: "./src/background.js",
-      popup: "./src/popup-page/index.js",
-      option: "./src/option-page/index.js",
-      devtool: "./src/devtool-page/index.js",
-      panel: "./src/panel-page/index.js"
+      popup: "./src/pages/popup/index.js",
+      option: "./src/pages/options/index.js",
+      devtool: "./src/pages/devtools/index.js",
+      panel: "./src/pages/panel/index.js"
     },
     module: {
       rules: [
@@ -60,10 +60,10 @@ module.exports = (env, options) => {
     plugins: [
       new CopyWebpackPlugin(
         [
-          { from: "./src/popup-page/popup.html", force: true },
-          { from: "./src/option-page/option.html", force: true },
-          { from: "./src/devtool-page/devtool.html", force: true },
-          { from: "./src/panel-page/panel.html", force: true },
+          { from: "./src/pages/popup/popup.html", force: true },
+          { from: "./src/pages/options/option.html", force: true },
+          { from: "./src/pages/devtools/devtool.html", force: true },
+          { from: "./src/pages/panel/panel.html", force: true },
           { from: "./src/app/", force: true }
         ],
         {}
