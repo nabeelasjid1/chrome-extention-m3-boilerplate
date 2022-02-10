@@ -1,5 +1,8 @@
-const guid = {};
-guid.generateGuid = () => {
+const print = (text) => {
+  console.log("🚀 ~ ", text);
+};
+
+const generateGuid = () => {
   var result, i, j;
   result = "";
   for (j = 0; j < 32; j++) {
@@ -11,5 +14,4 @@ guid.generateGuid = () => {
   }
   return result;
 };
-
-module.exports = guid;
+module.exports = { print, generateGuid };

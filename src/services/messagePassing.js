@@ -14,48 +14,35 @@ const getActiveTab = (winId) => {
   });
 };
 
-const sendMessage = (path, payload, callback) => {
-  const data = payload;
-  data.path = path;
-  chrome.runtime.sendMessage(data, callback);
+const sendMessageToBackground = (payload, callback) => {
+  const data = { payload, callback };
+  chrome.runtime.sendMessage(data);
 };
 
-const sendMessageToActiveTab = async (path, payload, callback) => {
-  payload.path = path;
+const sendMessageToScripts = async (payload, callback) => {
   try {
-    const tab = await this.getActiveTab();
-    chrome.tabs.sendMessage(tab.id, payload, callback);
+    const data = { payload, callback };
+    const tab = await getActiveTab();
+    chrome.tabs.sendMessage(tab.id, data);
   } catch (e) {
     console.log(e);
   }
   return true;
 };
 
-const sendMessageToTab = async (path, id, payload, callback) => {
-  payload.path = path;
+const sendMessageToTab = async (id, payload, callback) => {
+  const data = { payload, callback };
   try {
-    chrome.tabs.sendMessage(id, payload, callback);
+    chrome.tabs.sendMessage(id, data);
   } catch (e) {
     console.log(e);
   }
   return true;
-};
-
-const addListener = () => {
-  chrome.runtime.onMessage.addListener((req, sender, res) => {
-    try {
-      res(req);
-    } catch (e) {
-      console.log(e);
-    }
-    return true;
-  });
 };
 
 export {
   getActiveTab,
-  sendMessage,
-  sendMessageToActiveTab,
+  sendMessageToBackground,
+  sendMessageToScripts,
   sendMessageToTab,
-  addListener,
 };

@@ -1,9 +1,9 @@
-const { generateGuid } = require("./src/services/guid");
+const { generateGuid } = require("./src/services/utils");
 const constants = {
   appConfig: {
     appName: "EXTENSION_NAME",
     urls: {
-      chrome: "CHROME_STORE_URL"
+      chrome: "CHROME_STORE_URL",
     },
     // put extension key here if required which would only be used in development mode
     key: "SSH_PUBLIC_KEY", // gather it from extension store
