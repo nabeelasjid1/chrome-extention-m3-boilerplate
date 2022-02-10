@@ -1,66 +1,61 @@
-class MessagePassing {
-  constructor() {
-    this.routes = {};
-    this.options = {};
-    this.listenerMode = true;
-    this.addListener();
+const getActiveTab = (winId) => {
+  const config = { active: true };
+  if (winId) {
+    config.windowId = winId;
   }
-  setListenerMode(mode) {
-    this.listenerMode = mode;
-  }
-  setOptions(options) {
-    this.options = options;
-  }
-  on(path, callback) {
-    this.routes[path] = callback;
-  }
-  getActiveTab = (winId) => {
-    const config = { active: true, currentWindow: true };
-    if (winId) {
-      config.windowId = winId;
-    }
-    return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    try {
       chrome.tabs.query(config, (tabs) => {
         resolve(tabs[0]);
       });
-    });
-  };
-  addListener() {
-    chrome.runtime.onMessage.addListener((req, sender, res) => {
-      if (!this.listenerMode) return;
-      try {
-        this.routes[req.path](req, res, this.options);
-      } catch (e) {
-        console.log(e);
-        console.log({ path: req.path });
-      }
-      return true;
-    });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const sendMessage = (path, payload, callback) => {
+  const data = payload;
+  data.path = path;
+  chrome.runtime.sendMessage(data, callback);
+};
+
+const sendMessageToActiveTab = async (path, payload, callback) => {
+  payload.path = path;
+  try {
+    const tab = await this.getActiveTab();
+    chrome.tabs.sendMessage(tab.id, payload, callback);
+  } catch (e) {
+    console.log(e);
   }
-  sendMessage(path, payload, callback) {
-    const data = payload;
-    data.path = path;
-    chrome.runtime.sendMessage(data, callback);
+  return true;
+};
+
+const sendMessageToTab = async (path, id, payload, callback) => {
+  payload.path = path;
+  try {
+    chrome.tabs.sendMessage(id, payload, callback);
+  } catch (e) {
+    console.log(e);
   }
-  async sendMessageToActiveTab(path, payload, callback) {
-    payload.path = path;
+  return true;
+};
+
+const addListener = () => {
+  chrome.runtime.onMessage.addListener((req, sender, res) => {
     try {
-      const tab = await this.getActiveTab();
-      chrome.tabs.sendMessage(tab.id, payload, callback);
+      res(req);
     } catch (e) {
       console.log(e);
     }
     return true;
-  }
-  async sendMessageToTab(path, id, payload, callback) {
-    payload.path = path;
-    try {
-      chrome.tabs.sendMessage(id, payload, callback);
-    } catch (e) {
-      console.log(e);
-    }
-    return true;
-  }
-}
-const mp = new MessagePassing();
-export default mp;
+  });
+};
+
+export {
+  getActiveTab,
+  sendMessage,
+  sendMessageToActiveTab,
+  sendMessageToTab,
+  addListener,
+};
